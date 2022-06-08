@@ -34,8 +34,41 @@ def main():
     option = st.sidebar.selectbox('Selection Option: ', activities)
 
     #Build each of the ooptions
+    #EDA Option
     if option == 'EDA':
-        pass
+        st.subheader('Exploratory Data Analysis')
+        #Load dataset
+        data = st.file_uploader('Upload dataset', type =['csv', 'xlsx', 'txt', 'json'])
+        st.success('Data sucessfully loaded')
+
+        if data is not None:
+            df = pd.read_csv(data)
+            st.dataframe(df.head(50))
+        
+            if st.checkbox('Display shape'):
+                st.write(df.shape)
+
+            if st.checkbox('Display columns'):
+                st.write(df.columns)
+        
+            if st.checkbox('Select Multiple Columns'):
+                selected_columns = st.multiselect('Select your preferred columns:', df.columns)
+                df1 = df[selected_columns]
+                st.dataframe(df1)
+        
+            if st.checkbox('Display Summary'):
+                st.write(df.describe().T)
+
+            if st.checkbox('Display Null Values'):
+                st.write(df.isnull().sum())
+            
+            if st.checkbox('Display data types'):
+                st.write(df.dtpes)
+            
+            if st.checkbox('Display correlation'):
+                st.write(df.corr())
+
+    #Visualization option
 
     elif option == 'Visualization':
         pass
