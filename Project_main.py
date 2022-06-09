@@ -71,7 +71,34 @@ def main():
     #Visualization option
 
     elif option == 'Visualization':
-        pass
+        st.subheader('Visualization')
+        #Load dataset
+        data = st.file_uploader('Upload dataset', type =['csv', 'xlsx', 'txt', 'json'])
+        st.success('Data sucessfully loaded')
+
+        if data is not None:
+            df = pd.read_csv(data)
+            st.dataframe(df.head(50))
+
+            if st.checkbox('Select multiple columns to plot'):
+                selected_columns = st.multiselect('Select your preffered coluns', df.columns)
+                df1 = df[selected_columns]
+                st.dataframe(df1)
+
+            if st.checkbox('Display Heatmap'):
+                st.write(sns.heatmap(df.corr(), vmax=1, square=True, annot=True, cmap='viridis'))
+                st.pyplot()
+            
+            if st.checkbox('Display Pairplot'):
+                st.write(sns.pairplot(df, diag_kind='kde'))
+                st.pyplot()
+            
+            if st.checkbox('Display Pie Chart'):
+                all_columns = df.columns.to_list()
+                pie_columns = st.selectbox('Select the columns to display', all_columns)
+                pieChart = df[pie_columns].value_counts().plot.pie(autopct='%1.1f%%')
+                st.write(pieChart)
+
 
     elif option == 'Model':
         pass
